@@ -22,16 +22,49 @@ func GenerateSchema() {
 
 	fmt.Println(c)
 
+	mnames := []string{}
 	// for each csv file
 	for _, entry := range c {
 		if strings.HasSuffix(entry.Name(), ".csv") {
 			// generate schema
-			GenerateSchemaForCSV(entry.Name())
+			mnames = append(mnames, GenerateSchemaForCSV(entry.Name()))
 		}
 	}
+
+	t, err := template.ParseFiles("templates/migrator.go.tmpl")
+	if err != nil {
+		panic(err)
+	}
+
+	var o *os.File
+	if _, err := os.Stat(filepath.Join("models", "main.go")); !os.IsNotExist(err) {
+		err := os.Remove(filepath.Join("models", "main.go"))
+		if err != nil {
+			panic(err)
+		}
+
+	}
+	o, err = os.Create(filepath.Join("models", "exec", "main.go"))
+	if err != nil {
+		panic(err)
+	}
+
+	defer o.Close()
+
+	res := map[string]interface{}{
+		"Models": []map[string]interface{}{},
+	}
+
+	for i := range mnames {
+		res["Models"] = append(res["Models"].([]map[string]interface{}), map[string]interface{}{
+			"Name": mnames[i],
+		})
+	}
+
+	t.Execute(o, res)
 }
 
-func GenerateSchemaForCSV(filename string) {
+func GenerateSchemaForCSV(filename string) string {
 	t, err := template.ParseFiles("templates/model.go.tmpl")
 	if err != nil {
 		panic(err)
@@ -67,7 +100,9 @@ func GenerateSchemaForCSV(filename string) {
 		s = strings.ToUpper(s)
 	}
 
-	res["ModelName"] = s
+	mname := s
+
+	res["ModelName"] = mname
 
 	s = strings.ReplaceAll(filename, ".csv", "")
 	s = strings.ReplaceAll(s, "-", "_")
@@ -119,6 +154,8 @@ func GenerateSchemaForCSV(filename string) {
 	if err != nil {
 		panic(err)
 	}
+
+	return mname
 }
 
 // Parse Type

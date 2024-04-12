@@ -4,18 +4,26 @@ import (
 	"fmt"
 
 	"github.com/muhwyndhamhp/pc-part-dataset/config"
+	"github.com/muhwyndhamhp/pc-part-dataset/models"
 	libsql "github.com/renxzen/gorm-libsql"
 	"gorm.io/gorm"
 )
 
-func UpdateParentDBSchema() {
+func main() {
 	url := config.Get(config.LIBSQL_URL)
 	auth := config.Get(config.LIBSQL_TOKEN)
 
-	db, err := gorm.Open(libsql.Open(fmt.Sprintf("%s?authToken=%s", url, auth)), &gorm.Config{})
+	db, err := gorm.Open(libsql.Open(fmt.Sprintf("%s?authToken=%s", url, auth)), &gorm.Config{
+		DryRun: true,
+	})
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("Connected to parent database: %s\n", db.Name())
+
+	{{range .Models}}
+		err = db.AutoMigrate(&models.{{.Name}}{})
+		if err != nil {panic(err)}
+	{{end}}
 }

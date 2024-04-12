@@ -1,0 +1,9 @@
+package main
+
+import "os/exec"
+
+func main() {
+	GenerateSchema()
+
+	exec.Command("gofmt ./models/exec/main.go")
+}
