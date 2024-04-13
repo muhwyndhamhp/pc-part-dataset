@@ -1,0 +1,41 @@
+package main
+
+import (
+
+	"fmt"
+
+	"github.com/muhwyndhamhp/pc-part-dataset/config"
+	"github.com/muhwyndhamhp/pc-part-dataset/models"
+	libsql "github.com/renxzen/gorm-libsql"
+	"gorm.io/gorm"
+
+	"golang.org/x/sync/errgroup"
+)
+
+func main() {
+	url := config.Get(config.LIBSQL_URL)
+	auth := config.Get(config.LIBSQL_TOKEN)
+
+	db, err := gorm.Open(libsql.Open(fmt.Sprintf("%s?authToken=%s", url, auth)), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("Connected to parent database: %s\n", db.Name())
+
+	group := errgroup.Group{}
+
+	{{range .Models}}
+	group.Go(func() error {
+		err = models.{{.Name}}{}.ImportData(db)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	{{end}}
+
+	if err := group.Wait(); err != nil {
+		panic(err)
+	}
+}

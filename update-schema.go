@@ -9,8 +9,8 @@ import (
 )
 
 func UpdateParentDBSchema() {
-	url := config.Get(config.LIBSQL_URL)
-	auth := config.Get(config.LIBSQL_TOKEN)
+	url := config.Get(config.LIBSQL_SCHEMA_URL)
+	auth := config.Get(config.LIBSQL_SCHEMA_TOKEN)
 
 	db, err := gorm.Open(libsql.Open(fmt.Sprintf("%s?authToken=%s", url, auth)), &gorm.Config{})
 	if err != nil {

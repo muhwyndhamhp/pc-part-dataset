@@ -5,6 +5,7 @@ go 1.22.1
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/renxzen/gorm-libsql v0.0.0-20240302231413-bea2dce63ac6
+	golang.org/x/sync v0.3.0
 	golang.org/x/text v0.14.0
 	gorm.io/gorm v1.25.9
 )

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -31,14 +32,55 @@ func GenerateSchema() {
 		}
 	}
 
+	GenerateMigrator(mnames)
+	GenerateImpoter(mnames)
+}
+
+func GenerateImpoter(mnames []string) {
+	t, err := template.ParseFiles("templates/importer.go.tmpl")
+	if err != nil {
+		panic(err)
+	}
+
+	var o *os.File
+	if _, err := os.Stat(filepath.Join("models", "importer", "main.go")); !os.IsNotExist(err) {
+		err := os.Remove(filepath.Join("models", "importer", "main.go"))
+		if err != nil {
+			panic(err)
+		}
+	}
+	o, err = os.Create(filepath.Join("models", "importer", "main.go"))
+	if err != nil {
+		panic(err)
+	}
+
+	defer o.Close()
+
+	res := map[string]interface{}{
+		"Models": []map[string]interface{}{},
+	}
+
+	for i := range mnames {
+		res["Models"] = append(res["Models"].([]map[string]interface{}), map[string]interface{}{
+			"Name": mnames[i],
+		})
+	}
+
+	err = t.Execute(o, res)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func GenerateMigrator(mnames []string) {
 	t, err := template.ParseFiles("templates/migrator.go.tmpl")
 	if err != nil {
 		panic(err)
 	}
 
 	var o *os.File
-	if _, err := os.Stat(filepath.Join("models", "main.go")); !os.IsNotExist(err) {
-		err := os.Remove(filepath.Join("models", "main.go"))
+	if _, err := os.Stat(filepath.Join("models", "exec", "main.go")); !os.IsNotExist(err) {
+		err := os.Remove(filepath.Join("models", "exec", "main.go"))
 		if err != nil {
 			panic(err)
 		}
@@ -61,7 +103,10 @@ func GenerateSchema() {
 		})
 	}
 
-	t.Execute(o, res)
+	err = t.Execute(o, res)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func GenerateSchemaForCSV(filename string) string {
@@ -70,7 +115,8 @@ func GenerateSchemaForCSV(filename string) string {
 		panic(err)
 	}
 
-	f, err := os.Open(filepath.Join("data/csv", filename))
+	path := filepath.Join("data/csv", filename)
+	f, err := os.Open(path)
 	if err != nil {
 		panic(err)
 	}
@@ -78,6 +124,15 @@ func GenerateSchemaForCSV(filename string) string {
 
 	r := csv.NewReader(f)
 	title, err := r.Read()
+	if err != nil {
+		panic(err)
+	}
+
+	cmd := exec.Command("cp", path, filepath.Join("models", filename))
+
+	fmt.Println(cmd.String())
+
+	err = cmd.Run()
 	if err != nil {
 		panic(err)
 	}
@@ -115,6 +170,7 @@ func GenerateSchemaForCSV(filename string) string {
 		s += "s"
 	}
 
+	res["Filename"] = filename
 	res["TableName"] = s
 
 	res["Fields"] = []map[string]interface{}{}
@@ -124,13 +180,26 @@ func GenerateSchemaForCSV(filename string) string {
 		n = strings.ReplaceAll(n, "-", "")
 		n = strings.ReplaceAll(n, "_", "")
 		n = strings.ReplaceAll(n, " ", "")
-
-		res["Fields"] = append(res["Fields"].([]map[string]interface{}), map[string]interface{}{
+		v := map[string]interface{}{
 			"FieldNameProper": n,
 			"FieldNameSnake":  title[i],
-			"FIeldExample":    first[i],
-			"FieldType":       ParseType(first[i]),
-		})
+			"FieldExample":    first[i],
+		}
+		ty := ParseType(first[i])
+		switch ty {
+		case "int":
+			v["Statement"] = fmt.Sprintf("utils.ToInt(records[i][%d])", i)
+		case "float64":
+			v["Statement"] = fmt.Sprintf("utils.ToFloat64(records[i][%d])", i)
+		case "bool":
+			v["Statement"] = fmt.Sprintf("utils.ToBool(records[i][%d])", i)
+		case "string":
+			v["Statement"] = fmt.Sprintf("records[i][%d]", i)
+		}
+
+		v["FieldType"] = ty
+
+		res["Fields"] = append(res["Fields"].([]map[string]interface{}), v)
 	}
 
 	fname := strings.ReplaceAll(filename, ".csv", "")
