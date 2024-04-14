@@ -16,7 +16,7 @@ var HeadphonesCsv []byte
 type Headphones struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
-	 Price int `json:"price" form:"price"`
+	 Price float64 `json:"price" form:"price"`
 	 Type string `json:"type" form:"type"`
 	 FrequencyResponse string `json:"frequency_response" form:"frequency_response"`
 	 Microphone bool `json:"microphone" form:"microphone"`
@@ -48,7 +48,7 @@ func (Headphones)ImportData(db *gorm.DB) error {
 
 		m := Headphones{
 			Name: records[i][0],
-			Price: utils.ToInt(records[i][1]),
+			Price: utils.ToFloat64(records[i][1]),
 			Type: records[i][2],
 			FrequencyResponse: records[i][3],
 			Microphone: utils.ToBool(records[i][4]),

@@ -22,7 +22,7 @@ type Case struct {
 	 Psu string `json:"psu" form:"psu"`
 	 SidePanel string `json:"side_panel" form:"side_panel"`
 	 ExternalVolume float64 `json:"external_volume" form:"external_volume"`
-	 Internal35Bays int `json:"internal_35_bays" form:"internal_35_bays"`
+	 Internal35Bays float64 `json:"internal_35_bays" form:"internal_35_bays"`
 	
 }
 
@@ -54,7 +54,7 @@ func (Case)ImportData(db *gorm.DB) error {
 			Psu: records[i][4],
 			SidePanel: records[i][5],
 			ExternalVolume: utils.ToFloat64(records[i][6]),
-			Internal35Bays: utils.ToInt(records[i][7]),
+			Internal35Bays: utils.ToFloat64(records[i][7]),
 			
 		}
 

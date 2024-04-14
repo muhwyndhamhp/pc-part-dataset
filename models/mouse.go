@@ -19,7 +19,7 @@ type Mouse struct {
 	 Price float64 `json:"price" form:"price"`
 	 TrackingMethod string `json:"tracking_method" form:"tracking_method"`
 	 ConnectionType string `json:"connection_type" form:"connection_type"`
-	 MaxDpi int `json:"max_dpi" form:"max_dpi"`
+	 MaxDpi float64 `json:"max_dpi" form:"max_dpi"`
 	 HandOrientation string `json:"hand_orientation" form:"hand_orientation"`
 	 Color string `json:"color" form:"color"`
 	
@@ -50,7 +50,7 @@ func (Mouse)ImportData(db *gorm.DB) error {
 			Price: utils.ToFloat64(records[i][1]),
 			TrackingMethod: records[i][2],
 			ConnectionType: records[i][3],
-			MaxDpi: utils.ToInt(records[i][4]),
+			MaxDpi: utils.ToFloat64(records[i][4]),
 			HandOrientation: records[i][5],
 			Color: records[i][6],
 			

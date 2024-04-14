@@ -19,7 +19,7 @@ type PowerSupply struct {
 	 Price float64 `json:"price" form:"price"`
 	 Type string `json:"type" form:"type"`
 	 Efficiency string `json:"efficiency" form:"efficiency"`
-	 Wattage int `json:"wattage" form:"wattage"`
+	 Wattage float64 `json:"wattage" form:"wattage"`
 	 Modular string `json:"modular" form:"modular"`
 	 Color string `json:"color" form:"color"`
 	
@@ -50,7 +50,7 @@ func (PowerSupply)ImportData(db *gorm.DB) error {
 			Price: utils.ToFloat64(records[i][1]),
 			Type: records[i][2],
 			Efficiency: records[i][3],
-			Wattage: utils.ToInt(records[i][4]),
+			Wattage: utils.ToFloat64(records[i][4]),
 			Modular: records[i][5],
 			Color: records[i][6],
 			

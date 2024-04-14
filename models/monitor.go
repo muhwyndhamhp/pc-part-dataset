@@ -17,9 +17,9 @@ type Monitor struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 ScreenSize int `json:"screen_size" form:"screen_size"`
+	 ScreenSize float64 `json:"screen_size" form:"screen_size"`
 	 Resolution string `json:"resolution" form:"resolution"`
-	 RefreshRate int `json:"refresh_rate" form:"refresh_rate"`
+	 RefreshRate float64 `json:"refresh_rate" form:"refresh_rate"`
 	 ResponseTime float64 `json:"response_time" form:"response_time"`
 	 PanelType string `json:"panel_type" form:"panel_type"`
 	 AspectRatio string `json:"aspect_ratio" form:"aspect_ratio"`
@@ -49,9 +49,9 @@ func (Monitor)ImportData(db *gorm.DB) error {
 		m := Monitor{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			ScreenSize: utils.ToInt(records[i][2]),
+			ScreenSize: utils.ToFloat64(records[i][2]),
 			Resolution: records[i][3],
-			RefreshRate: utils.ToInt(records[i][4]),
+			RefreshRate: utils.ToFloat64(records[i][4]),
 			ResponseTime: utils.ToFloat64(records[i][5]),
 			PanelType: records[i][6],
 			AspectRatio: records[i][7],

@@ -16,10 +16,10 @@ var ExternalHardDriveCsv []byte
 type ExternalHardDrive struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
-	 Price int `json:"price" form:"price"`
+	 Price float64 `json:"price" form:"price"`
 	 Type string `json:"type" form:"type"`
 	 Interface string `json:"interface" form:"interface"`
-	 Capacity int `json:"capacity" form:"capacity"`
+	 Capacity float64 `json:"capacity" form:"capacity"`
 	 PricePerGb float64 `json:"price_per_gb" form:"price_per_gb"`
 	 Color string `json:"color" form:"color"`
 	
@@ -47,10 +47,10 @@ func (ExternalHardDrive)ImportData(db *gorm.DB) error {
 
 		m := ExternalHardDrive{
 			Name: records[i][0],
-			Price: utils.ToInt(records[i][1]),
+			Price: utils.ToFloat64(records[i][1]),
 			Type: records[i][2],
 			Interface: records[i][3],
-			Capacity: utils.ToInt(records[i][4]),
+			Capacity: utils.ToFloat64(records[i][4]),
 			PricePerGb: utils.ToFloat64(records[i][5]),
 			Color: records[i][6],
 			

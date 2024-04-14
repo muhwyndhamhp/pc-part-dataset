@@ -17,10 +17,10 @@ type InternalHardDrive struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 Capacity int `json:"capacity" form:"capacity"`
+	 Capacity float64 `json:"capacity" form:"capacity"`
 	 PricePerGb float64 `json:"price_per_gb" form:"price_per_gb"`
 	 Type string `json:"type" form:"type"`
-	 Cache int `json:"cache" form:"cache"`
+	 Cache float64 `json:"cache" form:"cache"`
 	 FormFactor string `json:"form_factor" form:"form_factor"`
 	 Interface string `json:"interface" form:"interface"`
 	
@@ -49,10 +49,10 @@ func (InternalHardDrive)ImportData(db *gorm.DB) error {
 		m := InternalHardDrive{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			Capacity: utils.ToInt(records[i][2]),
+			Capacity: utils.ToFloat64(records[i][2]),
 			PricePerGb: utils.ToFloat64(records[i][3]),
 			Type: records[i][4],
-			Cache: utils.ToInt(records[i][5]),
+			Cache: utils.ToFloat64(records[i][5]),
 			FormFactor: records[i][6],
 			Interface: records[i][7],
 			

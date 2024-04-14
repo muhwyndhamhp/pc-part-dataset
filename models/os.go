@@ -17,8 +17,8 @@ type OS struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 Mode int `json:"mode" form:"mode"`
-	 MaxMemory int `json:"max_memory" form:"max_memory"`
+	 Mode float64 `json:"mode" form:"mode"`
+	 MaxMemory float64 `json:"max_memory" form:"max_memory"`
 	
 }
 
@@ -45,8 +45,8 @@ func (OS)ImportData(db *gorm.DB) error {
 		m := OS{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			Mode: utils.ToInt(records[i][2]),
-			MaxMemory: utils.ToInt(records[i][3]),
+			Mode: utils.ToFloat64(records[i][2]),
+			MaxMemory: utils.ToFloat64(records[i][3]),
 			
 		}
 

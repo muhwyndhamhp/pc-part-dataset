@@ -16,11 +16,11 @@ var MotherboardCsv []byte
 type Motherboard struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
-	 Price int `json:"price" form:"price"`
+	 Price float64 `json:"price" form:"price"`
 	 Socket string `json:"socket" form:"socket"`
 	 FormFactor string `json:"form_factor" form:"form_factor"`
-	 MaxMemory int `json:"max_memory" form:"max_memory"`
-	 MemorySlots int `json:"memory_slots" form:"memory_slots"`
+	 MaxMemory float64 `json:"max_memory" form:"max_memory"`
+	 MemorySlots float64 `json:"memory_slots" form:"memory_slots"`
 	 Color string `json:"color" form:"color"`
 	
 }
@@ -47,11 +47,11 @@ func (Motherboard)ImportData(db *gorm.DB) error {
 
 		m := Motherboard{
 			Name: records[i][0],
-			Price: utils.ToInt(records[i][1]),
+			Price: utils.ToFloat64(records[i][1]),
 			Socket: records[i][2],
 			FormFactor: records[i][3],
-			MaxMemory: utils.ToInt(records[i][4]),
-			MemorySlots: utils.ToInt(records[i][5]),
+			MaxMemory: utils.ToFloat64(records[i][4]),
+			MemorySlots: utils.ToFloat64(records[i][5]),
 			Color: records[i][6],
 			
 		}

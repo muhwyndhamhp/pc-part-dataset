@@ -16,9 +16,9 @@ var UPSCsv []byte
 type UPS struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
-	 Price int `json:"price" form:"price"`
-	 CapacityW int `json:"capacity_w" form:"capacity_w"`
-	 CapacityVa int `json:"capacity_va" form:"capacity_va"`
+	 Price float64 `json:"price" form:"price"`
+	 CapacityW float64 `json:"capacity_w" form:"capacity_w"`
+	 CapacityVa float64 `json:"capacity_va" form:"capacity_va"`
 	
 }
 
@@ -44,9 +44,9 @@ func (UPS)ImportData(db *gorm.DB) error {
 
 		m := UPS{
 			Name: records[i][0],
-			Price: utils.ToInt(records[i][1]),
-			CapacityW: utils.ToInt(records[i][2]),
-			CapacityVa: utils.ToInt(records[i][3]),
+			Price: utils.ToFloat64(records[i][1]),
+			CapacityW: utils.ToFloat64(records[i][2]),
+			CapacityVa: utils.ToFloat64(records[i][3]),
 			
 		}
 

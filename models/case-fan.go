@@ -17,7 +17,7 @@ type CaseFan struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 Size int `json:"size" form:"size"`
+	 Size float64 `json:"size" form:"size"`
 	 Color string `json:"color" form:"color"`
 	 Rpm string `json:"rpm" form:"rpm"`
 	 Airflow string `json:"airflow" form:"airflow"`
@@ -49,7 +49,7 @@ func (CaseFan)ImportData(db *gorm.DB) error {
 		m := CaseFan{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			Size: utils.ToInt(records[i][2]),
+			Size: utils.ToFloat64(records[i][2]),
 			Color: records[i][3],
 			Rpm: records[i][4],
 			Airflow: records[i][5],

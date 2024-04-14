@@ -17,7 +17,7 @@ type CpuCooler struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 Rpm int `json:"rpm" form:"rpm"`
+	 Rpm float64 `json:"rpm" form:"rpm"`
 	 NoiseLevel float64 `json:"noise_level" form:"noise_level"`
 	 Color string `json:"color" form:"color"`
 	 Size string `json:"size" form:"size"`
@@ -47,7 +47,7 @@ func (CpuCooler)ImportData(db *gorm.DB) error {
 		m := CpuCooler{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			Rpm: utils.ToInt(records[i][2]),
+			Rpm: utils.ToFloat64(records[i][2]),
 			NoiseLevel: utils.ToFloat64(records[i][3]),
 			Color: records[i][4],
 			Size: records[i][5],

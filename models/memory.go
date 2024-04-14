@@ -21,8 +21,8 @@ type Memory struct {
 	 Modules string `json:"modules" form:"modules"`
 	 PricePerGb float64 `json:"price_per_gb" form:"price_per_gb"`
 	 Color string `json:"color" form:"color"`
-	 FirstWordLatency int `json:"first_word_latency" form:"first_word_latency"`
-	 CasLatency int `json:"cas_latency" form:"cas_latency"`
+	 FirstWordLatency float64 `json:"first_word_latency" form:"first_word_latency"`
+	 CasLatency float64 `json:"cas_latency" form:"cas_latency"`
 	
 }
 
@@ -53,8 +53,8 @@ func (Memory)ImportData(db *gorm.DB) error {
 			Modules: records[i][3],
 			PricePerGb: utils.ToFloat64(records[i][4]),
 			Color: records[i][5],
-			FirstWordLatency: utils.ToInt(records[i][6]),
-			CasLatency: utils.ToInt(records[i][7]),
+			FirstWordLatency: utils.ToFloat64(records[i][6]),
+			CasLatency: utils.ToFloat64(records[i][7]),
 			
 		}
 

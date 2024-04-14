@@ -230,13 +230,13 @@ func GenerateSchemaForCSV(filename string) string {
 // Parse Type
 func ParseType(s string) string {
 	// if able to be parsed as int, return int
-	_, err := strconv.Atoi(s)
-	if err == nil {
-		return "int"
-	}
+	// _, err := strconv.Atoi(s)
+	// if err == nil {
+	// 	return "int"
+	// }
 
 	// if able to be parsed as float, return float
-	_, err = strconv.ParseFloat(s, 64)
+	_, err := strconv.ParseFloat(s, 64)
 	if err == nil {
 		return "float64"
 	}

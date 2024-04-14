@@ -18,9 +18,9 @@ type SoundCard struct {
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
 	 Channels float64 `json:"channels" form:"channels"`
-	 DigitalAudio int `json:"digital_audio" form:"digital_audio"`
-	 Snr int `json:"snr" form:"snr"`
-	 SampleRate int `json:"sample_rate" form:"sample_rate"`
+	 DigitalAudio float64 `json:"digital_audio" form:"digital_audio"`
+	 Snr float64 `json:"snr" form:"snr"`
+	 SampleRate float64 `json:"sample_rate" form:"sample_rate"`
 	 Chipset string `json:"chipset" form:"chipset"`
 	 Interface string `json:"interface" form:"interface"`
 	
@@ -50,9 +50,9 @@ func (SoundCard)ImportData(db *gorm.DB) error {
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
 			Channels: utils.ToFloat64(records[i][2]),
-			DigitalAudio: utils.ToInt(records[i][3]),
-			Snr: utils.ToInt(records[i][4]),
-			SampleRate: utils.ToInt(records[i][5]),
+			DigitalAudio: utils.ToFloat64(records[i][3]),
+			Snr: utils.ToFloat64(records[i][4]),
+			SampleRate: utils.ToFloat64(records[i][5]),
 			Chipset: records[i][6],
 			Interface: records[i][7],
 			

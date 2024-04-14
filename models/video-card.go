@@ -18,11 +18,11 @@ type VideoCard struct {
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
 	 Chipset string `json:"chipset" form:"chipset"`
-	 Memory int `json:"memory" form:"memory"`
-	 CoreClock int `json:"core_clock" form:"core_clock"`
-	 BoostClock int `json:"boost_clock" form:"boost_clock"`
+	 Memory float64 `json:"memory" form:"memory"`
+	 CoreClock float64 `json:"core_clock" form:"core_clock"`
+	 BoostClock float64 `json:"boost_clock" form:"boost_clock"`
 	 Color string `json:"color" form:"color"`
-	 Length int `json:"length" form:"length"`
+	 Length float64 `json:"length" form:"length"`
 	
 }
 
@@ -50,11 +50,11 @@ func (VideoCard)ImportData(db *gorm.DB) error {
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
 			Chipset: records[i][2],
-			Memory: utils.ToInt(records[i][3]),
-			CoreClock: utils.ToInt(records[i][4]),
-			BoostClock: utils.ToInt(records[i][5]),
+			Memory: utils.ToFloat64(records[i][3]),
+			CoreClock: utils.ToFloat64(records[i][4]),
+			BoostClock: utils.ToFloat64(records[i][5]),
 			Color: records[i][6],
-			Length: utils.ToInt(records[i][7]),
+			Length: utils.ToFloat64(records[i][7]),
 			
 		}
 

@@ -23,7 +23,9 @@ func main() {
 	fmt.Printf("Connected to parent database: %s\n", db.Name())
 
 	{{range .Models}}
+		fmt.Println("*************")
 		err = db.AutoMigrate(&models.{{.Name}}{})
 		if err != nil {panic(err)}
+		fmt.Println("*************")
 	{{end}}
 }

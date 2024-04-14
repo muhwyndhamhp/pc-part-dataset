@@ -16,11 +16,11 @@ var CPUCsv []byte
 type CPU struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
-	 Price int `json:"price" form:"price"`
-	 CoreCount int `json:"core_count" form:"core_count"`
+	 Price float64 `json:"price" form:"price"`
+	 CoreCount float64 `json:"core_count" form:"core_count"`
 	 CoreClock float64 `json:"core_clock" form:"core_clock"`
-	 BoostClock int `json:"boost_clock" form:"boost_clock"`
-	 Tdp int `json:"tdp" form:"tdp"`
+	 BoostClock float64 `json:"boost_clock" form:"boost_clock"`
+	 Tdp float64 `json:"tdp" form:"tdp"`
 	 Graphics string `json:"graphics" form:"graphics"`
 	 Smt bool `json:"smt" form:"smt"`
 	
@@ -48,11 +48,11 @@ func (CPU)ImportData(db *gorm.DB) error {
 
 		m := CPU{
 			Name: records[i][0],
-			Price: utils.ToInt(records[i][1]),
-			CoreCount: utils.ToInt(records[i][2]),
+			Price: utils.ToFloat64(records[i][1]),
+			CoreCount: utils.ToFloat64(records[i][2]),
 			CoreClock: utils.ToFloat64(records[i][3]),
-			BoostClock: utils.ToInt(records[i][4]),
-			Tdp: utils.ToInt(records[i][5]),
+			BoostClock: utils.ToFloat64(records[i][4]),
+			Tdp: utils.ToFloat64(records[i][5]),
 			Graphics: records[i][6],
 			Smt: utils.ToBool(records[i][7]),
 			

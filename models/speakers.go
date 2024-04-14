@@ -17,8 +17,8 @@ type Speakers struct {
 	gorm.Model
 	 Name string `json:"name" form:"name"`
 	 Price float64 `json:"price" form:"price"`
-	 Configuration int `json:"configuration" form:"configuration"`
-	 Wattage int `json:"wattage" form:"wattage"`
+	 Configuration float64 `json:"configuration" form:"configuration"`
+	 Wattage float64 `json:"wattage" form:"wattage"`
 	 FrequencyResponse string `json:"frequency_response" form:"frequency_response"`
 	 Color string `json:"color" form:"color"`
 	
@@ -47,8 +47,8 @@ func (Speakers)ImportData(db *gorm.DB) error {
 		m := Speakers{
 			Name: records[i][0],
 			Price: utils.ToFloat64(records[i][1]),
-			Configuration: utils.ToInt(records[i][2]),
-			Wattage: utils.ToInt(records[i][3]),
+			Configuration: utils.ToFloat64(records[i][2]),
+			Wattage: utils.ToFloat64(records[i][3]),
 			FrequencyResponse: records[i][4],
 			Color: records[i][5],
 			
